@@ -12,8 +12,7 @@ pricing models.
   preferred slots are full (e.g., a Two-Wheeler can park in a Medium or Large slot).
 * **Fair Billing System:** Calculates parking fees based on the *allocated slot type*, not the vehicle type, ensuring
   fair usage of real estate.
-* **High Performance:** Utilizes customized `TreeSet` data structures to achieve $O(1)$ retrieval time for the nearest
-  slot and $O(\log N)$ time for updates.
+* **High Performance:** Utilizes customized `TreeSet` data structures backed by Red-Black Trees. Finding the optimal slot and updating its availability across $G$ multiple gates operates at a highly efficient **$O(G \log N)$** time complexity, ensuring the system remains responsive even with thousands of parking spaces.
 
 ---
 
@@ -49,8 +48,7 @@ distances:
 * Each `Gate` maintains its own `Map<SlotType, TreeSet<Slot>>`.
 * The `TreeSet` is initialized with a custom `Comparator` that sorts slots by their geometric distance to *that specific
   gate* (calculating floor and position deltas).
-* **Result:** When a vehicle enters, finding the optimal slot is an **$O(1)$** operation (`treeSet.first()`). When a
-  vehicle parks or leaves, updating the state takes **$O(\log N)$** time.
+* **Result:** When a vehicle enters, finding the optimal slot is an **$O(\log N)$** operation (`treeSet.first()`). Because we must prevent double-booking, updating this state across all $G$ gates takes **$O(G \log N)$** time.
 
 ---
 
@@ -186,8 +184,7 @@ src/
    ```
 4. Execute the Main runner class:
    ```bash
-   java -cp src/Main
+   java -cp src Main
    ```
 
 The `Main.java` file contains a pre-built simulation that demonstrates adding physical infrastructure (Gates and Slots), processing various vehicle arrivals (including automated slot upgrades), and calculating exits and billing.
-```
