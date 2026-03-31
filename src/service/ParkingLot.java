@@ -52,7 +52,7 @@ public class ParkingLot {
         }
     }
 
-    public Ticket park(Vehicle vehicle, long entryTimeMillis, SlotType requestedSlotType, String entryGateID) {
+    public synchronized Ticket park(Vehicle vehicle, long entryTimeMillis, SlotType requestedSlotType, String entryGateID) {
         Gate entryGate = gates.get(entryGateID);
         if (entryGate == null) throw new IllegalArgumentException("Invalid Gate ID");
 
